@@ -33,19 +33,18 @@ def format_data():
     """Creates and returns a string from the data"""
     animals_data = load_data(JSON_DATA_FILE)
 
-    data_string = '<ul class="cards">'
+    data_string = ''
 
     for animal in animals_data:
         data_string += '<li class="cards__item">'
-        data_string += f"Name: {animal.get('name')}<br/>\n"
+        data_string += f'<div class="card__title">{animal.get('name')}</div>\n'
+        data_string += '<p class="card__text">'
         if animal.get("characteristics").get("diet") is not None:
-            data_string += f"Diet: {animal.get('characteristics').get('diet')}<br/>\n"
-        data_string += f"Location: {animal.get('locations')[0]}<br/>\n"
+            data_string += f"<strong>Diet:</strong> {animal.get('characteristics').get('diet')}<br/>\n"
+        data_string += f"<strong>Location:</strong> {animal.get('locations')[0]}<br/>\n"
         if animal.get("characteristics").get("type") is not None:
-            data_string += f"Type: {animal.get('characteristics').get('type')}<br/>\n"
+            data_string += f"<strong>Type:</strong> {animal.get('characteristics').get('type')}<br/>\n"
         data_string += '</li>'
-
-    data_string += '</ul>'
 
     return data_string
 
