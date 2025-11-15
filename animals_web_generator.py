@@ -45,23 +45,23 @@ def serialize_animal(animal):
     data_string = ''
     data_string += '<li class="cards__item">'
     data_string += f'<div class="card__title">{animal.get('name')}</div>\n'
-    data_string += '<p class="card__text">'
-    data_string += f"<strong>Scientific Name:</strong> {animal.get('taxonomy').get('scientific_name')}<br/>\n"
+    data_string += '<div class="card__text">\n<ul>\n'
+    data_string += f"<li><strong>Scientific Name:</strong> {animal.get('taxonomy').get('scientific_name')}</li>\n"
     if animal.get("characteristics").get("diet") is not None:
-        data_string += f"<strong>Diet:</strong> {animal.get('characteristics').get('diet')}<br/>\n"
-    data_string += f"<strong>Location(s):</strong> {animal.get('locations')[0]}"
+        data_string += f"<li><strong>Diet:</strong> {animal.get('characteristics').get('diet')}</li>\n"
+    data_string += f"<li><strong>Location(s):</strong> {animal.get('locations')[0]}"
     for i in range(1, len(animal.get('locations'))):
         data_string += f", {animal.get('locations')[i]}"
-    data_string += "<br/>\n"
+    data_string += "</li>\n"
     if animal.get("characteristics").get("weight") is not None:
-        data_string += f"<strong>Weight:</strong> {animal.get('characteristics').get('weight')}<br/>\n"
+        data_string += f"<li><strong>Weight:</strong> {animal.get('characteristics').get('weight')}</li>\n"
     if animal.get("characteristics").get("type") is not None:
-        data_string += f"<strong>Type:</strong> {animal.get('characteristics').get('type')}<br/>\n"
+        data_string += f"<li><strong>Type:</strong> {animal.get('characteristics').get('type')}</li>\n"
     if animal.get("characteristics").get("temperament") is not None:
-        data_string += f"<strong>Temperament:</strong> {animal.get('characteristics').get('temperament')}<br/>\n"
+        data_string += f"<li><strong>Temperament:</strong> {animal.get('characteristics').get('temperament')}</li>\n"
     if animal.get("characteristics").get("slogan") is not None:
-        data_string += f"<strong>Slogan:</strong> {animal.get('characteristics').get('slogan')}<br/>\n"
-    data_string += '</li>'
+        data_string += f"<li><strong>Slogan:</strong> {animal.get('characteristics').get('slogan')}</li>\n"
+    data_string += '</ul></div></li>'
     
     return data_string
 
