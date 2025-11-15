@@ -1,6 +1,10 @@
 import json
 
 
+HTML_TEMPLATE_FILE = "animals_template.html"
+JSON_DATA_FILE = "animals_data.json"
+HTML_OUTPUT_FILE = "animals.html"
+
 def read_template(file_path):
     """Returns the content of the template file as string"""
     with open(file_path, "r") as handle:
@@ -8,7 +12,7 @@ def read_template(file_path):
 
 
 def create_html_string():
-    return read_template("animals_template.html").replace(
+    return read_template(HTML_TEMPLATE_FILE).replace(
         "__REPLACE_ANIMALS_INFO__", format_data()
     )
 
@@ -27,7 +31,7 @@ def load_data(file_path):
 
 def format_data():
     """Creates and returns a string from the data"""
-    animals_data = load_data("animals_data.json")
+    animals_data = load_data(JSON_DATA_FILE)
 
     data_string = ""
 
@@ -43,7 +47,7 @@ def format_data():
 
 
 def main():
-    write_html("animals.html", create_html_string())
+    write_html(HTML_OUTPUT_FILE, create_html_string())
 
 if __name__ == "__main__":
     main()
