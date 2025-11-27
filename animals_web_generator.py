@@ -113,14 +113,32 @@ def serialize_animal(animal):
 
     return data_string
 
+def cli_interface():
+    """
+    Asks the user to input an animal name and then generates the html output
+    """
+    print("Welcome to the Animals Web Generator!")
+    while True:
+        try:
+            print("Type an animal name to search for or press Ctrl+C to exit.")
+            search_string = input()
+        except KeyboardInterrupt:
+            print("\nExiting.")
+            break
+
+        if search_string == "":
+            print("You entered an empty string.")
+        else:
+            write_html(HTML_OUTPUT_FILE, create_html_string(search_string))
+            print(f"Generated file: {HTML_OUTPUT_FILE}")
+
 
 def main():
     """
-    Reads a template html file, adds html derived form json data
-    and writes the result to new file.
+    Calls the command line interface to search for animals which 
+    then generates a html file as result.
     """
-
-    write_html(HTML_OUTPUT_FILE, create_html_string("horse"))
+    cli_interface()
 
 
 if __name__ == "__main__":
