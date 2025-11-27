@@ -4,8 +4,9 @@ import requests
 HTML_TEMPLATE_FILE = "animals_template.html"
 JSON_DATA_FILE = "animals_data.json"
 HTML_OUTPUT_FILE = "animals.html"
-url = 'https://api.api-ninjas.com/v1/animals'
-headers = {'X-Api-Key': '67XSw+kVd+LqaXn6YnT+/A==msznqu2bNvMGW8JI'}
+url = "https://api.api-ninjas.com/v1/animals"
+headers = {"X-Api-Key": "67XSw+kVd+LqaXn6YnT+/A==msznqu2bNvMGW8JI"}
+
 
 def read_template(file_path):
     """Returns the content of the template file as string"""
@@ -31,7 +32,7 @@ def write_html(file_path, html_string):
 
 def load_data(search_string):
     """Returns the data from the animal api as list"""
-    parameter = {'name': search_string}
+    parameter = {"name": search_string}
 
     response = requests.get(url, headers=headers, params=parameter)
 
@@ -44,8 +45,23 @@ def format_data(search_string):
 
     data_string = ""
 
-    for animal in animals_data:
-        data_string += serialize_animal(animal)
+    if animals_data:
+        for animal in animals_data:
+            data_string += serialize_animal(animal)
+    else:
+        data_string += serialize_no_animal(search_string)
+
+    return data_string
+
+
+def serialize_no_animal(search_string):
+    data_string = ""
+    data_string += "\t" * 3 + '<li class="cards__item">\n'
+    data_string += '<div id="noresults">'
+    data_string += f"<h2>Sorry, no results for input {search_string}.</h2>"
+    data_string += '<img src="no_results.jpg" alt="November rain.">'
+    data_string += "</div>"
+    data_string += "</li>\n"
 
     return data_string
 
@@ -113,6 +129,7 @@ def serialize_animal(animal):
 
     return data_string
 
+
 def cli_interface():
     """
     Asks the user to input an animal name and then generates the html output
@@ -135,7 +152,7 @@ def cli_interface():
 
 def main():
     """
-    Calls the command line interface to search for animals which 
+    Calls the command line interface to search for animals which
     then generates a html file as result.
     """
     cli_interface()

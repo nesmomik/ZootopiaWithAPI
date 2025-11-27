@@ -1,13 +1,6 @@
 <html>
   <head>
     <style>
-    @gray-darker:               #444444;
-    @gray-dark:                 #696969;
-    @gray:                      #999999;
-    @gray-light:                #cccccc;
-    @gray-lighter:              #ececec;
-    @gray-lightest:             lighten(@gray-lighter,4%);
-
 
     html {
       background-color: #ffe9e9;
@@ -29,6 +22,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -moz-font-feature-settings: "liga" on;
+      font-feature-settings: "liga" on;
       width: 900px;
       margin: auto;
     }
@@ -40,6 +34,21 @@
     li {
       list-style-type: none;
     }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+      flex: 1 1 auto;
+      object-fit: cover;
+    }
+
+    
+    #noresults {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .cards {
       list-style: none;
       margin: 0;
@@ -56,7 +65,7 @@
     }
 
     .card__title {
-      color: @gray-dark;
+      color: #696969;
       font-size: 1.25rem;
       font-weight: 300;
       letter-spacing: 2px;
@@ -74,7 +83,7 @@
     </style>
   </head>
   <body>
-    <h1>My Animal Repository</h1>
+    <h1>Animal API search</h1>
     <ul class="cards">
 __REPLACE_ANIMALS_INFO__
     </ul>
