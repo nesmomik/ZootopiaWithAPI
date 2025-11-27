@@ -1,11 +1,11 @@
-import json
-
+import requests
 
 # file paths
 HTML_TEMPLATE_FILE = "animals_template.html"
 JSON_DATA_FILE = "animals_data.json"
 HTML_OUTPUT_FILE = "animals.html"
-
+url = 'https://api.api-ninjas.com/v1/animals'
+headers = {'X-Api-Key': '67XSw+kVd+LqaXn6YnT+/A==msznqu2bNvMGW8JI'}
 
 def read_template(file_path):
     """Returns the content of the template file as string"""
@@ -13,13 +13,13 @@ def read_template(file_path):
         return handle.read()
 
 
-def create_html_string():
+def create_html_string(search_string):
     """
     Reads the template file and replaces the placeholder
     text with the generated html code
     """
     return read_template(HTML_TEMPLATE_FILE).replace(
-        "__REPLACE_ANIMALS_INFO__", format_data()
+        "__REPLACE_ANIMALS_INFO__", format_data(search_string)
     )
 
 
@@ -29,15 +29,18 @@ def write_html(file_path, html_string):
         handle.write(html_string)
 
 
-def load_data(file_path):
-    """Returns the date from the json file as dict"""
-    with open(file_path, "r") as handle:
-        return json.load(handle)
+def load_data(search_string):
+    """Returns the data from the animal api as list"""
+    parameter = {'name': search_string}
+
+    response = requests.get(url, headers=headers, params=parameter)
+
+    return response.json()
 
 
-def format_data():
+def format_data(search_string):
     """Aggregates and returns a string from the data"""
-    animals_data = load_data(JSON_DATA_FILE)
+    animals_data = load_data(search_string)
 
     data_string = ""
 
@@ -59,14 +62,14 @@ def serialize_animal(animal):
     data_string += (
         "\t" * 7
         + "<li><strong>Scientific Name:</strong> "
-        + {animal.get('taxonomy').get('scientific_name')}
+        + f"{animal.get('taxonomy').get('scientific_name')}"
         + "</li>\n"
     )
     if animal.get("characteristics").get("diet") is not None:
         data_string += (
             "\t" * 7
             + "<li><strong>Diet:</strong> "
-            + {animal.get('characteristics').get('diet')}
+            + f"{animal.get('characteristics').get('diet')}"
             + "</li>\n"
         )
     data_string += (
@@ -80,28 +83,28 @@ def serialize_animal(animal):
         data_string += (
             "\t" * 7
             + "<li><strong>Weight:</strong> "
-            + {animal.get('characteristics').get('weight')}
+            + f"{animal.get('characteristics').get('weight')}"
             + "</li>\n"
         )
     if animal.get("characteristics").get("type") is not None:
         data_string += (
             "\t" * 7
             + "<li><strong>Type:</strong> "
-            + {animal.get('characteristics').get('type')}
+            + f"{animal.get('characteristics').get('type')}"
             + "</li>\n"
         )
     if animal.get("characteristics").get("temperament") is not None:
         data_string += (
             "\t" * 7
             + "<li><strong>Temperament:</strong> "
-            + {animal.get('characteristics').get('temperament')}
+            + f"{animal.get('characteristics').get('temperament')}"
             + "</li>\n"
         )
     if animal.get("characteristics").get("slogan") is not None:
         data_string += (
             "\t" * 7
             + "<li><strong>Slogan:</strong> "
-            + {animal.get('characteristics').get('slogan')}
+            + f"{animal.get('characteristics').get('slogan')}"
             + "</li>\n"
         )
     data_string += (
@@ -116,7 +119,8 @@ def main():
     Reads a template html file, adds html derived form json data
     and writes the result to new file.
     """
-    write_html(HTML_OUTPUT_FILE, create_html_string())
+
+    write_html(HTML_OUTPUT_FILE, create_html_string("horse"))
 
 
 if __name__ == "__main__":
