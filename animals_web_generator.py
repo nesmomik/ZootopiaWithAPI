@@ -1,11 +1,17 @@
+import os
+from dotenv import load_dotenv
 import requests
 
-# file paths
+# using .env file for environment variables
+load_dotenv()
+
+# file paths, constants and environment variables
 HTML_TEMPLATE_FILE = "animals_template.html"
 JSON_DATA_FILE = "animals_data.json"
 HTML_OUTPUT_FILE = "animals.html"
-url = "https://api.api-ninjas.com/v1/animals"
-headers = {"X-Api-Key": "67XSw+kVd+LqaXn6YnT+/A==msznqu2bNvMGW8JI"}
+URL = "https://api.api-ninjas.com/v1/animals"
+API_KEY = os.getenv('API_KEY')
+HEADERS = {"X-Api-Key": API_KEY}
 
 
 def read_template(file_path):
@@ -34,8 +40,7 @@ def load_data(search_string):
     """Returns the data from the animal api as list"""
     parameter = {"name": search_string}
 
-    response = requests.get(url, headers=headers, params=parameter)
-
+    response = requests.get(URL, headers=HEADERS, params=parameter)
     return response.json()
 
 
