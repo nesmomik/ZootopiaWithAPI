@@ -1,23 +1,30 @@
-import os
-from dotenv import load_dotenv
-import requests
-
-# using .env file for environment variables
-load_dotenv()
+from data_fetcher import fetch_data
 
 # file paths, constants and environment variables
 HTML_TEMPLATE_FILE = "animals_template.html"
 JSON_DATA_FILE = "animals_data.json"
 HTML_OUTPUT_FILE = "animals.html"
-URL = "https://api.api-ninjas.com/v1/animals"
-API_KEY = os.getenv('API_KEY')
-HEADERS = {"X-Api-Key": API_KEY}
 
 
 def read_template(file_path):
     """Returns the content of the template file as string"""
     with open(file_path, "r") as handle:
         return handle.read()
+
+
+def format_data(search_string):
+    """Aggregates and returns a string from the data"""
+    animals_data = fetch_data(search_string)
+
+    data_string = ""
+
+    if animals_data:
+        for animal in animals_data:
+            data_string += serialize_animal(animal)
+    else:
+        data_string += serialize_no_animal(search_string)
+
+    return data_string
 
 
 def create_html_string(search_string):
@@ -34,29 +41,6 @@ def write_html(file_path, html_string):
     """Returns the content of the template file as string"""
     with open(file_path, "w") as handle:
         handle.write(html_string)
-
-
-def load_data(search_string):
-    """Returns the data from the animal api as list"""
-    parameter = {"name": search_string}
-
-    response = requests.get(URL, headers=HEADERS, params=parameter)
-    return response.json()
-
-
-def format_data(search_string):
-    """Aggregates and returns a string from the data"""
-    animals_data = load_data(search_string)
-
-    data_string = ""
-
-    if animals_data:
-        for animal in animals_data:
-            data_string += serialize_animal(animal)
-    else:
-        data_string += serialize_no_animal(search_string)
-
-    return data_string
 
 
 def serialize_no_animal(search_string):
