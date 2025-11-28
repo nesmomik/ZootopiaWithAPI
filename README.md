@@ -24,7 +24,7 @@ API_KEY = 'your_secret_key'
 
 Also please install the dependencies with
 ``
-pip install requirements.txt 
+pip install -r requirements.txt 
 ``
 or
 ``
